@@ -37,7 +37,7 @@ async def predict(car_model: CarModel):
     x = {
             'model_key': car_model.model_key,
             'mileage': car_model.mileage,
-            'engin_power': car_model.engine_power,
+            'engine_power': car_model.engine_power,
             'fuel': car_model.fuel,
             'paint_color': car_model.paint_color,
             'car_type': car_model.car_type,

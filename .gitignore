@@ -1,2 +1,5 @@
+.python-version
+.env
+*.pyc
 *.xlsx
 *.csv
