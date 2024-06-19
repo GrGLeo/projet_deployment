@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pandas as pd
 import requests
@@ -43,9 +44,7 @@ even had to cancel their rental because the car wasn’t returned on time.
     with col3:
         st.write('Delayed Rentals')
         st.subheader(delayed_rentals)
-    st.write(delayed_rentals)
-    st.write(f'On the total of {total_rentals} rentals {round((delayed_rentals / total_rentals)*100,2)}% had a delay at checkout.')
-    st.write(f'Due to some record having really high delay (>24h) those outlier have been marked as an error.')
+    st.write(f'On the total of {total_rentals} rentals, {round((delayed_rentals / total_rentals)*100, 2)}% had a delay at checkout.')
 
     col1, col2 = st.columns(2)
     df_timedelay = df[df['state'] == 'delayed']
@@ -80,7 +79,7 @@ even had to cancel their rental because the car wasn’t returned on time.
         st.write('')
         st.write('')
 
-        st.write('26% of the delayed are between 1 and 19 minute, and 52% are between 1 and 60 minutes')
+        st.write('26% of the delayed are between 1 and 19 minute, and 52% are between 1 and 60 minutes.')
 
     st.header('Impact of delay on next rental')
  
@@ -91,22 +90,19 @@ even had to cancel their rental because the car wasn’t returned on time.
     
     col1, col2, col3 = st.columns(3)
     with col1:
-       st.write('Consecutive rental')
-       st.subheader(consecutive_rental)
-       st.write('% on total rentals')
-       st.subheader(f'{round((consecutive_rental / total_rentals)*100, 2)}%')
+        st.metric('Consecutive Rentals', consecutive_rental)
+        st.metric('% of Total Rentals', f'{round((consecutive_rental / total_rentals)*100, 2)}%')
     with col2:
-        st.write('Previous rental was late')
-        st.subheader(was_late)
-        st.write('% on consecutive rental')
-        st.subheader(f'{round((was_late / consecutive_rental)*100, 2)}%')
+        st.metric('Previous Rental was Late', was_late)
+        st.metric('% of Consecutive Rentals', f'{round((was_late / consecutive_rental)*100, 2)}%')
     with col3:
-        st.write('Cancellation due to delay')
-        st.subheader(got_cancel)
-        st.write('% on consecutive rental')
-        st.subheader(f'{round((got_cancel / consecutive_rental)*100, 2)}%')
+        st.metric('Cancellation due to Delay', got_cancel)
+        st.metric('% of Consecutive Rentals', f'{round((got_cancel / consecutive_rental)*100, 2)}%')
+
     impact_df = df_delayed['impact'].value_counts(normalize=True).reset_index()
-    fig = px.bar(impact_df, x='impact', y='proportion')
+    fig = px.bar(impact_df, x='impact', y='proportion', title='Impact proportions')
+    fig.update_layout(yaxis_title='')
+
     st.plotly_chart(fig)
 
 elif page == 'Simulation':
@@ -129,11 +125,9 @@ It solves the late checkout issue but also potentially hurts Getaround/owners re
         df_run, lost_rental, cancel_avoided = run_simulation(df, threshold, scope)
         col1, col2 = st.columns(2)
         with col1:
-            st.write('Lost rental')
-            st.subheader(lost_rental)
+            st.metric('Lost Rentals', lost_rental)
         with col2:
-            st.write('Cancellation avoided')
-            st.subheader(cancel_avoided)    
+            st.metric('Cancellations Avoided', cancel_avoided) 
     
     
 elif page == 'Price prediction':
@@ -160,16 +154,17 @@ elif page == 'Price prediction':
         cars_df = pd.DataFrame(st.session_state.car_list)
         st.write(cars_df)
 
-        if st.button('Estimate Prices'):
+        if st.button('Predict Prices'):
             cars_dict = {key: [car[key] for car in st.session_state.car_list] for key in st.session_state.car_list[0]}
         
-            api_url = "https://getaround-api-lg-b04147e374d7.herokuapp.com/predict"
+            api_url = os.environ['API_URL']
+            api_url += "/predict"
             response = requests.post(api_url, json=cars_dict)
             if response.status_code == 200:
                 prediction = response.json()
                 predictions = prediction['prediction']
 
                 for i, pred in zip(cars_df.index,predictions):
-                    st.write(f'**Price per day estimation for car {i+1}**: {round(pred,2)}€') 
+                    st.write(f'**Price per day prediction for car {i+1}**: {round(pred,2)}€') 
             else:
-                st.write("Error: Unable to get estimation")
+                st.write("Error: Unable to get prediction")
