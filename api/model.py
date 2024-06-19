@@ -5,7 +5,6 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from xgboost import XGBRegressor
-from sklearn.model_selection import GridSearchCV
 import mlflow
 
 
@@ -49,32 +48,18 @@ class Model:
         X = data.drop('rental_price_per_day', axis=1)
         y = data['rental_price_per_day']
 
-        param_grid = {
-            'model__n_estimators': [100, 200],
-            'model__learning_rate': [0.01, 0.1],
-            'model__max_depth': [3, 5, 7],
-            'model__subsample': [0.8, 1.0],
-            'model__max_leaves': [0, 31, 50], 
-            'model__num_parallel_tree': [1, 5, 10]
-        }
-
-        grid_search = GridSearchCV(self.model, param_grid, cv=5, scoring='neg_mean_squared_error', verbose=1, n_jobs=-1)
-
         with mlflow.start_run() as run:
-            grid_search.fit(X, y)
 
-            logging.info(f"Best parameters found: {grid_search.best_params_}")
-            logging.info(f"Best cross-validation score: {-grid_search.best_score_}")
+            self.model.fit(X,y)
 
-            mlflow.log_params(grid_search.best_params_)
-            mlflow.log_metric("best_neg_mse", -grid_search.best_score_)
+            mlflow.log_params(self.model.named_steps['model'].get_params())
+            mlflow.log_artifact
             mlflow.sklearn.log_model(
-                sk_model=grid_search.best_estimator_,
-                artifact_path="sklearn-model",
+                sk_model=self.model,
+                artifact_path='sklearn-model',
                 registered_model_name=self.model_name,
             )
 
-        self.model = grid_search.best_estimator_
 
     def _initialize_model(self):
         ohe_columns = ['model_key', 'fuel', 'paint_color', 'car_type']
@@ -100,7 +85,13 @@ class Model:
         ml_pipe = Pipeline(
             steps=[
                 ('preprocessing', preprocessing),
-                ('model', XGBRegressor(objective='reg:squarederror'))
+                ('model', XGBRegressor(learning_rate=0.1,
+                                       max_depth=5,
+                                       max_leaves=31,
+                                       n_estimators=200,
+                                       num_parallel_tree=10,
+                                       subsample=0.8,
+                                       objective='reg:squarederror'))
             ]
         )
         return ml_pipe

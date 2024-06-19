@@ -33,6 +33,9 @@ if $PUSH_TO_HEROKU; then
   heroku container:push web -a $HEROKU_APP_NAME
   heroku container:release web -a $HEROKU_APP_NAME
   heroku open -a $HEROKU_APP_NAME
+  heroku apps:info -a $HEROKU_APP_NAME --json | jq -r '.app.web_url'
+  echo "Copy the above url to the .env APP_URI"
+  heroku config -a my-awesome-app
 fi
 
 echo "Script execution completed."
