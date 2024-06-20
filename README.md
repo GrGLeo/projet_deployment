@@ -106,5 +106,18 @@ Guidelines for contributing to the project.
 - Push to the branch (git push origin feature/your-feature).
 - Open a pull request.
 
+## Enhancement
+### Backend spec
+-[ ] Storing the data files in a S3 Bucket, to avoid copying on each container the csv or the xlsx file.
+-[ ] Managing S3 Bucket interaction through python class
+
+### Frontend spec
+-[ ] Reworking the secnd page, for a better overview of change and adding visual for clarity
+-[ ] Cleaning some form interaction for smooth navigation
+-[ ] Make better use of caching
+
+### Miscellanious
+-[ ] Cleaning code
+
 ## Contact Information
 **GitHub** : GrGLeo
