@@ -1,123 +1,142 @@
 # Getaround Analysis
-This project was developed as part of a school assignment focused on the deployment aspect of data science. It involves two main components, an analysis on the late checkout and their impact, and an machine learning model to infer a price on a vehicule given information
+
+This project was developed as part of a school assignment focused on the deployment aspect of data science. It involves two main components: an analysis on late checkouts and their impacts, and a machine learning model to infer vehicle rental prices based on given information.
 
 ## Table of Contents
 
 - [Description](#description)
-- [Repo architecture](#repo-architecture)
+- [Repo Architecture](#repo-architecture)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
+- [Enhancements](#enhancements)
 - [Contact Information](#contact-information)
 
 ## Description
-### Analysis of Late Checkouts on Getaround:
 
-- Getaround is a rental car service where late checkouts can pose significant operational challenges.
-- The analysis aims to identify the impacts of late checkouts on consecutive rentals.
-- This component is implemented using a Streamlit app, providing an interactive and visual interface for data exploration and insights.
+### Analysis of Late Checkouts on Getaround
 
-### Vehicle Price Prediction Model:
+- **Overview**: Getaround is a rental car service where late checkouts can pose significant operational challenges.
+- **Goal**: The analysis aims to identify the impacts of late checkouts on consecutive rentals.
+- **Implementation**: This component is implemented using a Streamlit app, providing an interactive and visual interface for data exploration and insights.
 
-- This part involves building a predictive model to estimate car rental prices based on vehicle details.
-- The model is built using XGBoost, a powerful and efficient implementation of the gradient boosting framework.
-- The model is served via an API using FastAPI, a modern, fast (high-performance), web framework for building APIs with Python.
-- Model versioning and storage are managed with MLflow, ensuring reproducibility and easy deployment.
+### Vehicle Price Prediction Model
 
-## Repo architecture
+- **Goal**: To build a predictive model to estimate car rental prices based on vehicle details.
+- **Technology**: The model is built using XGBoost, a powerful and efficient implementation of the gradient boosting framework.
+- **Deployment**: The model is served via an API using FastAPI, a modern, fast, high-performance web framework for building APIs with Python.
+- **Model Management**: Model versioning and storage are managed with MLflow, ensuring reproducibility and easy deployment.
+
+## Repo Architecture
 ```
 .
 ├── api
-│   ├── api.py
-│   ├── Dockerfile
-│   ├── get_around_pricing_project.csv
-│   ├── model.py
-│   ├── param.py
-│   └── requirements.txt
+│ ├── api.py
+│ ├── Dockerfile
+│ ├── get_around_pricing_project.csv
+│ ├── model.py
+│ ├── param.py
+│ └── requirements.txt
 ├── data
-│   ├── get_around_delay_analysis.xlsx
-│   └── get_around_pricing_project.csv
+│ ├── get_around_delay_analysis.xlsx
+│ └── get_around_pricing_project.csv
 ├── front
-│   ├── app.py
-│   ├── Dockerfile
-│   ├── get_around_delay_analysis.xlsx
-│   ├── get_around_pricing_project.csv
-│   ├── requirements.txt
-│   └── utils.py
+│ ├── app.py
+│ ├── Dockerfile
+│ ├── get_around_delay_analysis.xlsx
+│ ├── get_around_pricing_project.csv
+│ ├── requirements.txt
+│ └── utils.py
 ├── mlflow
-│   ├── Dockerfile
-│   └── requirements.txt
+│ ├── Dockerfile
+│ └── requirements.txt
 ├── notebook
-│   ├── 01-Getaround_analysis.ipynb
-│   ├── exploration.ipynb
-│   └── ml.ipynb
+│ ├── 01-Getaround_analysis.ipynb
+│ ├── exploration.ipynb
+│ └── ml.ipynb
 ├── push_heroku.sh
 └── README.md
 ```
 
 ## Installation
+
 Step-by-step instructions on how to get a development environment running.
-- Requirements
-    - python 3.10+
-    - Heroku cli: https://devcenter.heroku.com/articles/heroku-cli
 
-- Clone the repository
-```bash
-git clone https://github.com/GrGLeo/projet_deploymeny.git
-```
+### Requirements
 
-- Navigate to the project directory
-```bash
-cd project_deploymeny
-```
-- Copy the template.env
-```bash
-cp template.env .env
-```
-- Three varialbe need to be filled:
-    - AWS_ACCESS_ID
-    - AWS_ACCESSS_KEY
-    - S3 BUCKET
+- Python 3.10+
+- Heroku CLI: [Heroku CLI Installation Guide](https://devcenter.heroku.com/articles/heroku-cli)
 
-- To push all to heroku:
-```bash
-chmod +x push_heroku.sh
-./push_heroku.sh
-# follow the given link to get to the front app
-```
+### Steps
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/GrGLeo/projet_deploymeny.git
+    ```
+
+2. Navigate to the project directory:
+    ```bash
+    cd projet_deploymeny
+    ```
+
+3. Copy the template environment file:
+    ```bash
+    cp template.env .env
+    ```
+
+4. Fill in the `.env` file with the following variables:
+    - `AWS_ACCESS_ID`
+    - `AWS_ACCESS_KEY`
+    - `S3_BUCKET`
+
+5. Push everything to Heroku:
+    ```bash
+    chmod +x push_heroku.sh
+    ./push_heroku.sh
+    # Follow the given link to access the front app
+    ```
 
 ## Usage
-On the frontend 3 page can be visited.  
-The first one give insight into the Getaround
-data and the late chekout, and their effect on the following rental.  
-The second page, let the user run simulation and a system to give a windows
-between each rental, a car would need be shown to the users, thus to mitigate
-the impact on short delayed checkout.  
-The third page, is for the price prediction, a form can be filled for each car that
-need to be estimate, and the model will predict the price per day for the rental.
+
+The frontend provides three main pages:
+
+1. **Analysis of Late Checkouts**: 
+   - Provides insights into the Getaround data and the effects of late checkouts on subsequent rentals.
+
+2. **Simulation Page**:
+   - Allows users to run simulations and suggest buffer windows between rentals to mitigate the impact of late checkouts.
+
+3. **Price Prediction**:
+   - A form where users can input vehicle details to get a predicted rental price per day from the model.
 
 ## Contributing
 
-Guidelines for contributing to the project.
-- Fork the repository.
-- Create a new branch (git checkout -b feature/your-feature).
-- Make your changes.
-- Commit your changes (git commit -m 'Add some feature').
-- Push to the branch (git push origin feature/your-feature).
-- Open a pull request.
+Guidelines for contributing to the project:
 
-## Enhancement
-### Backend spec
-- [ ] Storing the data files in a S3 Bucket, to avoid copying on each container the csv or the xlsx file.
-- [ ] Managing S3 Bucket interaction through python class
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature`).
+3. Make your changes.
+4. Commit your changes (`git commit -m 'Add some feature'`).
+5. Push to the branch (`git push origin feature/your-feature`).
+6. Open a pull request.
 
-### Frontend spec
-- [ ] Reworking the secnd page, for a better overview of change and adding visual for clarity
-- [ ] Cleaning some form interaction for smooth navigation
-- [ ] Make better use of caching
+## Enhancements
 
-### Miscellanious
-- [ ] Cleaning code
+### Backend
+
+- [ ] Store data files in an S3 Bucket to avoid copying CSV or XLSX files to each container.
+- [ ] Manage S3 Bucket interactions through a Python class.
+
+### Frontend
+
+- [ ] Rework the second page for better overview and clarity.
+- [ ] Improve form interactions for smooth navigation.
+- [ ] Enhance caching for better performance.
+
+### Miscellaneous
+
+- [ ] Clean the codebase.
 
 ## Contact Information
-**GitHub** : GrGLeo
+
+- **GitHub**: [GrGLeo](https://github.com/GrGLeo)
