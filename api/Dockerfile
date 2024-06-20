@@ -10,6 +10,8 @@ COPY requirements.txt /app/requirements.txt
 
 RUN pip install --no-cache-dir -r requirements.txt
 
+RUN apt-get update -y && apt-get install -y gcc && apt-get install -y git
+
 RUN pip install python-dotenv
 
 EXPOSE 8000

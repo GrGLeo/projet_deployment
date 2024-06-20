@@ -47,11 +47,10 @@ class Model:
         data = pd.read_csv('get_around_pricing_project.csv', index_col=0)
         X = data.drop('rental_price_per_day', axis=1)
         y = data['rental_price_per_day']
-
         with mlflow.start_run() as run:
 
             self.model.fit(X,y)
-
+            logging.info("################## fitted ################")
             mlflow.log_params(self.model.named_steps['model'].get_params())
             mlflow.log_artifact
             mlflow.sklearn.log_model(
@@ -94,6 +93,7 @@ class Model:
                                        objective='reg:squarederror'))
             ]
         )
+        logging.info('################### model initialized ################"')
         return ml_pipe
 
 if __name__ == '__main__':

@@ -158,7 +158,7 @@ elif page == 'Price prediction':
             cars_dict = {key: [car[key] for car in st.session_state.car_list] for key in st.session_state.car_list[0]}
         
             api_url = os.environ['API_URL']
-            api_url += "/predict"
+            api_url += "predict"
             response = requests.post(api_url, json=cars_dict)
             if response.status_code == 200:
                 prediction = response.json()
