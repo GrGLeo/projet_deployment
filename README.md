@@ -32,22 +32,22 @@ This project was developed as part of a school assignment focused on the deploym
 ```
 .
 ├── api
-│ ├── api.py
+│ ├── api.py            <-- API endpoint definition
 │ ├── Dockerfile
 │ ├── get_around_pricing_project.csv
-│ ├── model.py
-│ ├── param.py
+│ ├── model.py          <-- Model class
+│ ├── param.py          <-- API docs
 │ └── requirements.txt
 ├── data
 │ ├── get_around_delay_analysis.xlsx
 │ └── get_around_pricing_project.csv
 ├── front
-│ ├── app.py
+│ ├── app.py            <-- Main script for Streamlit front
 │ ├── Dockerfile
 │ ├── get_around_delay_analysis.xlsx
 │ ├── get_around_pricing_project.csv
 │ ├── requirements.txt
-│ └── utils.py
+│ └── utils.py          <-- Utility function for the main script
 ├── mlflow
 │ ├── Dockerfile
 │ └── requirements.txt
@@ -55,7 +55,8 @@ This project was developed as part of a school assignment focused on the deploym
 │ ├── 01-Getaround_analysis.ipynb
 │ ├── exploration.ipynb
 │ └── ml.ipynb
-├── push_heroku.sh
+├── push_heroku.sh      <-- Bash script to push all apps to Heroku
+├── delete_heroku.sh    <-- Bash script to destroy all apps from Heroku
 └── README.md
 ```
 
@@ -133,13 +134,13 @@ Guidelines for contributing to the project:
 ### Backend
 
 - [ ] Store data files in an S3 Bucket to avoid copying CSV or XLSX files to each container.
-- [ ] Manage S3 Bucket interactions through a Python class.
+- [ ] Manage S3 Bucket interactions through a Python module.
 
 ### Frontend
 
 - [ ] Rework the second page for better overview and clarity.
 - [ ] Improve form interactions for smooth navigation.
-- [ ] Enhance caching for better performance.
+- [x] Enhance caching for better performance.
 
 ### Miscellaneous
 
