@@ -110,13 +110,14 @@ chmod +x delete_heroku.sh
 The frontend provides three main pages:
 
 1. **Analysis of Late Checkouts**: 
-   - Provides insights into the Getaround data and the effects of late checkouts on subsequent rentals.
-
+   - Provides insights into the Getaround data and the effects of late checkouts on subsequent rentals.  
+    <img src="images/page_1.png" alt="Analysis page example" width="800"/>
 2. **Simulation Page**:
-   - Allows users to run simulations and suggest buffer windows between rentals to mitigate the impact of late checkouts.
-
+   - Allows users to run simulations and suggest buffer windows between rentals to mitigate the impact of late checkouts.  
+    <img src="images/page_2.png" alt="Simulation page example" width="800"/>
 3. **Price Prediction**:
-   - A form where users can input vehicle details to get a predicted rental price per day from the model.
+   - A form where users can input vehicle details to get a predicted rental price per day from the model.  
+    <img src="images/page_3.png" alt="Prediction form example" width="800"/>
 
 ## Contributing
 
