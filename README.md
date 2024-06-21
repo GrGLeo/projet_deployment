@@ -7,6 +7,7 @@ This project was developed as part of a school assignment focused on the deploym
 - [Description](#description)
 - [Repo Architecture](#repo-architecture)
 - [Installation](#installation)
+- [Uninstall](#uninstall)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [Enhancements](#enhancements)
@@ -95,6 +96,13 @@ Step-by-step instructions on how to get a development environment running.
     ./push_heroku.sh
     # Follow the given link to access the front app
     ```
+
+## Uninstall
+If the Heroku apps aren't needed anymore, destroy all apps by running:
+```bash
+chmod +x delete_heroku.sh
+./delete_heroku.sh
+```
 
 ## Usage
 
