@@ -73,7 +73,7 @@ Step-by-step instructions on how to get a development environment running.
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/GrGLeo/projet_deploymeny.git
+    git clone https://github.com/GrGLeo/projet_deployment.git
     ```
 
 2. Navigate to the project directory:
