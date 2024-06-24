@@ -4,46 +4,30 @@ services:
   front:
     build:
       context: ./front
+      dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "8501:8501"
     environment:
-      - ARTIFACT_STORE_URI=${ARTIFACT_STORE_URI}
-      - API_URL=http://api:5000  # Assuming API service name is 'api'
-    depends_on:
-      - api
-
-  api:
-    build:
-      context: ./api
-    ports:
-      - "5000:5000"
-    environment:
-      - ARTIFACT_STORE_URI=${ARTIFACT_STORE_URI}
-      - AWS_ACCESS_ID=${AWS_ACCESS_ID}
-      - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
-      - BACKEND_STORE_URI=${BACKEND_STORE_URI}
-    depends_on:
-      - mlflow
-    links:
-      - mlflow:mlflow  # Linking mlflow service
+      - PORT=8501
 
   mlflow:
     build:
       context: ./mlflow
+      dockerfile: Dockerfile
     ports:
-      - "7000:7000"
+      - "5000:5000"
     environment:
-      - ARTIFACT_STORE_URI=${ARTIFACT_STORE_URI}
-      - AWS_ACCESS_ID=${AWS_ACCESS_ID}
-      - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - BACKEND_STORE_URI=${BACKEND_STORE_URI}
-    depends_on:
-      - database
+      - ARTIFACT_STORE_URI=${ARTIFACT_STORE_URI}
+      - PORT=5000
 
-  database:
-    image: "postgres:13"
+  back:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
     environment:
-      - POSTGRES_USER=yourusername
-      - POSTGRES_PASSWORD=yourpassword
-      - POSTGRES_DB=mlflow
-
+      - PORT=8000
