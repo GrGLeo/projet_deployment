@@ -57,6 +57,7 @@ This project was developed as part of a school assignment focused on the deploym
 │ └── ml.ipynb
 ├── push_heroku.sh      <-- Bash script to push all apps to Heroku
 ├── delete_heroku.sh    <-- Bash script to destroy all apps from Heroku
+├── docker-compose.yaml <-- Docker compose file for local dev
 └── README.md
 ```
 
@@ -67,7 +68,9 @@ Step-by-step instructions on how to get a development environment running.
 ### Requirements
 
 - Python 3.10+
+- Docker
 - Heroku CLI: [Heroku CLI Installation Guide](https://devcenter.heroku.com/articles/heroku-cli)
+- Docker compose for local development
 
 ### Steps
 
@@ -96,6 +99,10 @@ Step-by-step instructions on how to get a development environment running.
     chmod +x push_heroku.sh
     ./push_heroku.sh
     # Follow the given link to access the front app
+    ```
+6. Docker compose for local development, is in WIP state, not yet functionnal
+    ```bash
+    docker compose up --build
     ```
 
 ## Uninstall
@@ -146,6 +153,7 @@ Guidelines for contributing to the project:
 ### Miscellaneous
 
 - [ ] Clean the codebase.
+- [ ] Fix docker compose network for local run
 
 ## Contact Information
 
